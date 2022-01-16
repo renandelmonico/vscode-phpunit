@@ -131,6 +131,9 @@ export class WorkspaceFolder {
             .setPhpUnitBinary(this.config.phpunit)
             .setArgs(this.config.args)
             .setRelativeFilePath(this.config.relativeFilePath)
+            .setIsDocker(this.config.docker)
+            .setDockerImage(this.config.dockerImage)
+            .setDockerCommand(this.config.dockerCommand)
 
         this.problems.setRemoteCwd(this.config.remoteCwd);
 

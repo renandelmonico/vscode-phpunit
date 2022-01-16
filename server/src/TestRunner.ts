@@ -14,6 +14,9 @@ export interface Params {
 export class TestRunner {
     private phpBinary = '';
     private phpUnitBinary = '';
+    private isDocker: boolean = false;
+    private dockerImage = '';
+    private dockerCommand = '';
     private args: string[] = [];
     private lastArgs: string[] = [];
     private lastOutput: string = '';
@@ -36,6 +39,24 @@ export class TestRunner {
         this.phpUnitBinary = phpUnitBinary
             ? this._files.asUri(phpUnitBinary).fsPath
             : '';
+
+        return this;
+    }
+
+    setIsDocker(isDocker: boolean | undefined) {
+        this.isDocker = isDocker ? isDocker : false;
+
+        return this;
+    }
+
+    setDockerImage(dockerImage: string | undefined) {
+        if (dockerImage) this.dockerImage = dockerImage;
+
+        return this;
+    }
+
+    setDockerCommand(dockerCommand: string | undefined) {
+        if (dockerCommand) this.dockerCommand = dockerCommand;
 
         return this;
     }
@@ -138,10 +159,12 @@ export class TestRunner {
     ): Promise<Command> {
         let params = [];
 
-        const [phpBinary, phpUnitBinary, phpUnitXml] = await Promise.all([
+        const [phpBinary, phpUnitBinary, phpUnitXml, dockerImage, dockerCommand] = await Promise.all([
             this.getPhpBinary(),
             this.getPhpUnitBinary(spawnOptions),
             this.getPhpUnitXml(spawnOptions),
+            this.getDockerImage(),
+            this.getDockerCommand()
         ]);
 
         if (phpBinary) {
@@ -150,6 +173,12 @@ export class TestRunner {
 
         if (phpUnitBinary) {
             params.push(phpUnitBinary);
+        }
+
+        if (this.isDocker) {
+            params.splice(0, params.length)
+            params.push(dockerImage);
+            params.push(dockerCommand);
         }
 
         const hasConfiguration = this.args.some((arg: string) =>
@@ -162,6 +191,16 @@ export class TestRunner {
         }
 
         params = params.concat(this.args, args).filter(arg => !!arg);
+
+        if (this.isDocker) {
+            const command = `${params.shift()} '${params.shift()}'`
+
+            return {
+                title: 'PHPUnit LSP',
+                command: command as string,
+                arguments: params,
+            };
+        }
 
         return {
             title: 'PHPUnit LSP',
@@ -185,6 +224,14 @@ export class TestRunner {
             ['vendor/bin/phpunit', 'phpunit'],
             spawnOptions
         );
+    }
+
+    private getDockerImage(): Promise<string> {
+        return Promise.resolve(this.dockerImage);
+    }
+
+    private getDockerCommand(): Promise<string> {
+        return Promise.resolve(this.dockerCommand);
     }
 
     private async getPhpUnitXml(spawnOptions?: SpawnOptions) {
