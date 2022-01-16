@@ -1,19 +1,19 @@
 {
     "name": "vscode-phpunit",
-    "description": "PHPUnit Test Explorer UI",
-    "displayName": "PHPUnit Test Explorer UI",
+    "description": "PHP: Unit Test Explorer UI",
+    "displayName": "PHP: Unit Test Explorer UI",
     "icon": "img/icon.png",
     "author": "renandelmonico",
     "license": "MIT",
-    "version": "2.0.76",
+    "version": "1.0.0",
     "preview": true,
     "repository": {
         "type": "git",
         "url": "https://github.com/renandelmonico/vscode-phpunit"
     },
-    "publisher": "recca0120",
+    "publisher": "renandelmonico",
     "contributors": [
-        "renandelmonico"
+        "recca0120"
     ],
     "categories": [
         "Other",
@@ -25,7 +25,8 @@
         "testing",
         "test explorer",
         "phpunit",
-        "language server protocol"
+        "language server protocol",
+        "codeception"
     ],
     "engines": {
         "vscode": "^1.30.0"
@@ -84,7 +85,7 @@
         ],
         "configuration": {
             "type": "object",
-            "title": "PHPUnit configuration",
+            "title": "PHP: Unit Test Explorer UI",
             "properties": {
                 "phpunit.maxNumberOfProblems": {
                     "scope": "resource",
@@ -115,7 +116,7 @@
                 },
                 "phpunit.php": {
                     "type": "string",
-                    "description": "Absolute path to php. Fallback to global php if it exists on the command line."
+                    "description": "Absolute path to php. Fallback to global php if it exists on the command line. If docker configuration is true this configuration is ignored."
                 },
                 "phpunit.phpunit": {
                     "type": "string",
@@ -172,11 +173,7 @@
                 },
                 "phpunit.dockerImage": {
                     "type": "string",
-                    "description": "Specifies the docker command line"
-                },
-                "phpunit.dockerCommand": {
-                    "type": "string",
-                    "description": "Specifies the command to run in docker container"
+                    "description": "Specifies the docker run command line"
                 }
             }
         },

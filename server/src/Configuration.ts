@@ -14,7 +14,6 @@ interface IConfiguration {
     args?: string[];
     docker?: boolean;
     dockerImage?: string;
-    dockerCommand?: string;
 }
 
 export class Configuration implements IConfiguration {
@@ -69,10 +68,6 @@ export class Configuration implements IConfiguration {
 
     get dockerImage(): string | undefined {
         return this.defaults.dockerImage;
-    }
-
-    get dockerCommand(): string | undefined {
-        return this.defaults.dockerCommand;
     }
 
     async update(configurationCapability = true) {

@@ -16,7 +16,6 @@ export class TestRunner {
     private phpUnitBinary = '';
     private isDocker: boolean = false;
     private dockerImage = '';
-    private dockerCommand = '';
     private args: string[] = [];
     private lastArgs: string[] = [];
     private lastOutput: string = '';
@@ -51,12 +50,6 @@ export class TestRunner {
 
     setDockerImage(dockerImage: string | undefined) {
         if (dockerImage) this.dockerImage = dockerImage;
-
-        return this;
-    }
-
-    setDockerCommand(dockerCommand: string | undefined) {
-        if (dockerCommand) this.dockerCommand = dockerCommand;
 
         return this;
     }
@@ -159,26 +152,19 @@ export class TestRunner {
     ): Promise<Command> {
         let params = [];
 
-        const [phpBinary, phpUnitBinary, phpUnitXml, dockerImage, dockerCommand] = await Promise.all([
+        const [phpBinary, phpUnitBinary, phpUnitXml, dockerImage] = await Promise.all([
             this.getPhpBinary(),
             this.getPhpUnitBinary(spawnOptions),
             this.getPhpUnitXml(spawnOptions),
-            this.getDockerImage(),
-            this.getDockerCommand()
+            this.getDockerImage()
         ]);
 
-        if (phpBinary) {
+        if (phpBinary && !this.isDocker) {
             params.push(phpBinary);
         }
 
-        if (phpUnitBinary) {
+        if (phpUnitBinary && !this.isDocker) {
             params.push(phpUnitBinary);
-        }
-
-        if (this.isDocker) {
-            params.splice(0, params.length)
-            params.push(dockerImage);
-            params.push(dockerCommand);
         }
 
         const hasConfiguration = this.args.some((arg: string) =>
@@ -193,12 +179,13 @@ export class TestRunner {
         params = params.concat(this.args, args).filter(arg => !!arg);
 
         if (this.isDocker) {
-            const command = `${params.shift()} '${params.shift()}'`
+            const phpUnitFile = phpUnitBinary ? phpUnitBinary.substring(1) : '';
+            const command = `${dockerImage} bash -c '${phpUnitFile} ${params.join(' ')}'`;
 
             return {
                 title: 'PHPUnit LSP',
                 command: command as string,
-                arguments: params,
+                arguments: []
             };
         }
 
@@ -228,10 +215,6 @@ export class TestRunner {
 
     private getDockerImage(): Promise<string> {
         return Promise.resolve(this.dockerImage);
-    }
-
-    private getDockerCommand(): Promise<string> {
-        return Promise.resolve(this.dockerCommand);
     }
 
     private async getPhpUnitXml(spawnOptions?: SpawnOptions) {
