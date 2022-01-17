@@ -5,6 +5,8 @@ Run your PHP tests using the
 
 ![Screenshot](img/screenshot.png)
 
+> This project is a fork from [recca0120/vscode-phpunit](https://github.com/recca0120/vscode-phpunit) ❤️
+
 ## Features
 
 -   Shows a Test Explorer in the Test view in VS Code's sidebar with all detected tests and suites and their state
