@@ -12,6 +12,8 @@ interface IConfiguration {
     php?: string;
     phpunit?: string;
     args?: string[];
+    docker?: boolean;
+    dockerImage?: string;
 }
 
 export class Configuration implements IConfiguration {
@@ -58,6 +60,14 @@ export class Configuration implements IConfiguration {
 
     get args(): string[] | undefined {
         return this.defaults.args;
+    }
+
+    get docker(): boolean | undefined {
+        return this.defaults.docker;
+    }
+
+    get dockerImage(): string | undefined {
+        return this.defaults.dockerImage;
     }
 
     async update(configurationCapability = true) {

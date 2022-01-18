@@ -14,6 +14,8 @@ export interface Params {
 export class TestRunner {
     private phpBinary = '';
     private phpUnitBinary = '';
+    private isDocker: boolean = false;
+    private dockerImage = '';
     private args: string[] = [];
     private lastArgs: string[] = [];
     private lastOutput: string = '';
@@ -36,6 +38,18 @@ export class TestRunner {
         this.phpUnitBinary = phpUnitBinary
             ? this._files.asUri(phpUnitBinary).fsPath
             : '';
+
+        return this;
+    }
+
+    setIsDocker(isDocker: boolean | undefined) {
+        this.isDocker = isDocker ? isDocker : false;
+
+        return this;
+    }
+
+    setDockerImage(dockerImage: string | undefined) {
+        if (dockerImage) this.dockerImage = dockerImage;
 
         return this;
     }
@@ -138,17 +152,18 @@ export class TestRunner {
     ): Promise<Command> {
         let params = [];
 
-        const [phpBinary, phpUnitBinary, phpUnitXml] = await Promise.all([
+        const [phpBinary, phpUnitBinary, phpUnitXml, dockerImage] = await Promise.all([
             this.getPhpBinary(),
             this.getPhpUnitBinary(spawnOptions),
             this.getPhpUnitXml(spawnOptions),
+            this.getDockerImage()
         ]);
 
-        if (phpBinary) {
+        if (phpBinary && !this.isDocker) {
             params.push(phpBinary);
         }
 
-        if (phpUnitBinary) {
+        if (phpUnitBinary && !this.isDocker) {
             params.push(phpUnitBinary);
         }
 
@@ -162,6 +177,17 @@ export class TestRunner {
         }
 
         params = params.concat(this.args, args).filter(arg => !!arg);
+
+        if (this.isDocker) {
+            const phpUnitFile = phpUnitBinary ? phpUnitBinary.substring(1) : '';
+            const command = `${dockerImage} 'bash -c "${phpUnitFile} ${params.join(' ')}"'`;
+
+            return {
+                title: 'PHPUnit LSP',
+                command: command as string,
+                arguments: []
+            };
+        }
 
         return {
             title: 'PHPUnit LSP',
@@ -185,6 +211,10 @@ export class TestRunner {
             ['vendor/bin/phpunit', 'phpunit'],
             spawnOptions
         );
+    }
+
+    private getDockerImage(): Promise<string> {
+        return Promise.resolve(this.dockerImage);
     }
 
     private async getPhpUnitXml(spawnOptions?: SpawnOptions) {

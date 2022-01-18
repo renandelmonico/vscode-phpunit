@@ -1,5 +1,5 @@
-import { Filesystem } from '../src/filesystem';
-import { Process } from '../src/process';
+import { Filesystem } from '../src/Filesystem';
+import { Process } from '../src/Process';
 import { TestRunner } from '../src/TestRunner';
 
 describe('TestRunner', () => {
@@ -22,7 +22,7 @@ describe('TestRunner', () => {
             expect(testRunner.getOutput()).toEqual('PHPUnit');
         });
 
-        describe('configurtion', () => {
+        describe('configuration', () => {
             beforeEach(() => {
                 spyOn(files, 'findup').and.returnValues(
                     'phpunit',
@@ -107,7 +107,7 @@ describe('TestRunner', () => {
                             '-c',
                             'phpunit.xml',
                             '--filter',
-                            '^.*::(test_passed|test_failed)( with data set .*)?$',
+                            '/^.*::test_passed|test_failed.*$/',
                             params.file,
                         ],
                     },

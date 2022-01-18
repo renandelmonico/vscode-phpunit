@@ -1,4 +1,4 @@
-import { Notify } from '../src/notify';
+import { Notify } from '../src/Notify';
 
 class StubNotify extends Notify {
     public getResult() {

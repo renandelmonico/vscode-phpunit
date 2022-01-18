@@ -1,30 +1,32 @@
 {
     "name": "lsp-phpunit-client",
     "description": "VSCode part of a language server",
-    "author": "recca0120",
+    "author": "renandelmonico",
     "license": "MIT",
     "version": "0.0.1",
-    "publisher": "recca0120",
+    "publisher": "renandelmonico",
+    "contributors": [
+        "recca0120"
+    ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/recca0120/vscode-phpunit"
+        "url": "https://github.com/renandelmonico/vscode-phpunit"
     },
     "engines": {
         "vscode": "^1.30.0"
     },
     "scripts": {
-        "update-vscode": "vscode-install",
-        "postinstall": "vscode-install"
+        "update-vscode": "vscode-install"
     },
     "dependencies": {
-        "md5": "^2.2.1",
+        "md5": "^2.3.0",
         "vscode-languageclient": "^5.2.1",
-        "vscode-test-adapter-api": "^1.7.0",
-        "vscode-test-adapter-util": "^0.7.0"
+        "vscode-test-adapter-api": "^1.9.0",
+        "vscode-test-adapter-util": "^0.7.1"
     },
     "devDependencies": {
-        "@types/md5": "^2.1.33",
-        "diff": "^4.0.1",
-        "vscode": "^1.1.34"
+        "@types/md5": "^2.3.1",
+        "diff": "^4.0.2",
+        "vscode": "^1.1.37"
     }
 }

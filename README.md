@@ -1,9 +1,11 @@
-# PHPUnit Test Explorer for Visual Studio Code
+# PHP: Unit Test Explorer UI for Visual Studio Code
 
-Run your PHPUnit tests in Node using the
+Run your PHP tests using the
 [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer).
 
 ![Screenshot](img/screenshot.png)
+
+> This project is a fork from [recca0120/vscode-phpunit](https://github.com/recca0120/vscode-phpunit) ❤️
 
 ## Features
 
@@ -14,12 +16,14 @@ Run your PHPUnit tests in Node using the
 -   Shows a failed test's log when the test is selected in the explorer
 -   Lets you choose test suites or individual tests in the explorer that should be run automatically after each file change
 -   Forwards the console output from PHPUnit to a VS Code output channel
+-   Run tests into the docker container
 
 ## Getting started
 
 -   Install the extension
 -   Restart VS Code and open the Test view
 -   Run your tests using the ![Run](img/run.png) icons in the Test Explorer or the CodeLenses in your test file
+-   For running tests on a docker container see the configuration
 -   For running phpunit on a remote system or using vagrant see Troubleshooting
 
 ## Configuration
@@ -66,6 +70,10 @@ To do this you need to configure the following settings:
 `"phpunit.php": "/usr/local/bin/vagrant exec php",` this is to execute PHP on the remote machine. You'll need to install and configure https://github.com/p0deje/vagrant-exec - this wraps the command like using `ssh -C`
 
 You can also use the method above to execute on Docker remotely
+
+`"phpunit.docker": true, ` this is to enable run the tests into the docker container
+
+`"phpunit.dockerImage": "docker run --rm -v $(pwd):$(pwd) -w=$(pwd) php:8", ` this is to use the docker container to run the tests
 
 ### My `/usr/local/bin/vagrant` isn't found?
 
