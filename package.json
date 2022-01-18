@@ -1,5 +1,5 @@
 {
-    "name": "vscode-phpunit",
+    "name": "vscode-php-test-explorer",
     "description": "PHP: Unit Test Explorer UI",
     "displayName": "PHP: Unit Test Explorer UI",
     "icon": "img/icon.png",
