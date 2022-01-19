@@ -180,7 +180,7 @@ export class TestRunner {
 
         if (this.isDocker) {
             const phpUnitFile = phpUnitBinary ? phpUnitBinary.substring(1) : '';
-            const command = `${dockerImage} 'bash -c "${phpUnitFile} ${params.join(' ')}"'`;
+            const command = `${dockerImage} bash -c "${phpUnitFile} ${params.join(' ')}"`;
 
             return {
                 title: 'PHPUnit LSP',
