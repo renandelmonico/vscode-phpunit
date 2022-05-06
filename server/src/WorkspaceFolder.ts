@@ -133,6 +133,8 @@ export class WorkspaceFolder {
             .setRelativeFilePath(this.config.relativeFilePath)
             .setIsDocker(this.config.docker)
             .setDockerImage(this.config.dockerImage)
+            .setConfigFile(this.config.configFile)
+            .setDiscoverConfigFile(this.config.configFile ? false : this.config.discoverConfigFile)
 
         this.problems.setRemoteCwd(this.config.remoteCwd);
 

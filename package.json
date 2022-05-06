@@ -5,7 +5,7 @@
     "icon": "img/icon.png",
     "author": "renandelmonico",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2-beta",
     "preview": true,
     "repository": {
         "type": "git",
@@ -121,6 +121,15 @@
                 "phpunit.phpunit": {
                     "type": "string",
                     "description": "Path to phpunit. Can be the phpunit file or phpunit.phar.\n\nAutomatically finds it in common places:\n  - Composer vendor directory\n  - phpunit.phar in your project\n  - phpunit (or phpunit.bat for windows) globally on the command line"
+                },
+                "phpunit.discoverConfigFile": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true the extension automatically try to find phpunit.xml or phpunit.xml.dist in you project."
+                },
+                "phpunit.configFile": {
+                    "type": "string",
+                    "description": "Path to phpunit.xml or phpunit.xml.dist file."
                 },
                 "phpunit.args": {
                     "type": "array",

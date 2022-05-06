@@ -20,6 +20,7 @@ export class TestRunner {
     private lastArgs: string[] = [];
     private lastOutput: string = '';
     private relativeFilePath: boolean = false;
+    private discoverConfigFile: boolean = false;
     private lastCommand: Command = {
         title: '',
         command: '',
@@ -50,6 +51,20 @@ export class TestRunner {
 
     setDockerImage(dockerImage: string | undefined) {
         if (dockerImage) this.dockerImage = dockerImage;
+
+        return this;
+    }
+
+    setConfigFile(configFile: PathLike | URI | undefined) {
+        if (configFile) {
+            this.args.push(`-c ${this._files.asUri(configFile).fsPath}`);
+        }
+
+        return this;
+    }
+
+    setDiscoverConfigFile(discoverConfigFile: boolean) {
+        this.discoverConfigFile = discoverConfigFile;
 
         return this;
     }
@@ -167,11 +182,7 @@ export class TestRunner {
             params.push(phpUnitBinary);
         }
 
-        const hasConfiguration = this.args.some((arg: string) =>
-            ['-c', '--configuration'].some(key => arg.indexOf(key) !== -1)
-        );
-
-        if (!hasConfiguration && phpUnitXml) {
+        if (phpUnitXml && this.discoverConfigFile) {
             params.push('-c');
             params.push(phpUnitXml);
         }
