@@ -14,6 +14,8 @@ interface IConfiguration {
     args?: string[];
     docker?: boolean;
     dockerImage?: string;
+    configFile?: string;
+    discoverConfigFile: boolean;
 }
 
 export class Configuration implements IConfiguration {
@@ -22,7 +24,8 @@ export class Configuration implements IConfiguration {
         files: '**/*.php',
         relativeFilePath: false,
         shell: '',
-        remoteCwd: ''
+        remoteCwd: '',
+        discoverConfigFile: false
     };
 
     constructor(
@@ -68,6 +71,14 @@ export class Configuration implements IConfiguration {
 
     get dockerImage(): string | undefined {
         return this.defaults.dockerImage;
+    }
+
+    get configFile(): string | undefined {
+        return this.defaults.configFile;
+    }
+
+    get discoverConfigFile(): boolean {
+        return this.defaults.discoverConfigFile;
     }
 
     async update(configurationCapability = true) {

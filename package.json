@@ -5,7 +5,7 @@
     "icon": "img/icon.png",
     "author": "renandelmonico",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "preview": true,
     "repository": {
         "type": "git",
@@ -122,6 +122,15 @@
                     "type": "string",
                     "description": "Path to phpunit. Can be the phpunit file or phpunit.phar.\n\nAutomatically finds it in common places:\n  - Composer vendor directory\n  - phpunit.phar in your project\n  - phpunit (or phpunit.bat for windows) globally on the command line"
                 },
+                "phpunit.discoverConfigFile": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true the extension automatically try to find phpunit.xml or phpunit.xml.dist in you project."
+                },
+                "phpunit.configFile": {
+                    "type": "string",
+                    "description": "Path to phpunit.xml or phpunit.xml.dist file."
+                },
                 "phpunit.args": {
                     "type": "array",
                     "default": [],
@@ -207,14 +216,14 @@
         "@types/jest": "^24.9.1",
         "@types/node": "^12.20.41",
         "@types/vscode": "^1.30.0",
-        "jest": "^24.9.0",
+        "jest": "^28.1.0",
         "merge-options": "^1.0.1",
         "rimraf": "^2.7.1",
-        "ts-jest": "^24.3.0",
+        "ts-jest": "^28.0.1",
         "ts-loader": "^6.2.2",
         "tslint": "^5.20.1",
         "typescript": "^3.9.10",
-        "webpack": "^4.46.0",
+        "webpack": "^5.72.0",
         "webpack-cli": "^3.3.12"
     },
     "dependencies": {

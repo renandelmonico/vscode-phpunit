@@ -67,6 +67,10 @@ To do this you need to configure the following settings:
 
 `"phpunit.phpunit": "/FULL_PATH_TO/vendor/bin/phpunit",` - your remote path, likely in `/var/www/html/`
 
+`"phpunit.discoverConfigFile": false,` if true the extension automatically try to find phpunit.xml or phpunit.xml.dist in you project.
+
+`"phpunit.configFile": "/FULL_PATH_TO/phpunit.xml", ` path to phpunit.xml or phpunit.xml.dist file. If this config is specified the `"phpunit.discoverConfigFile"` automatically turns to `false`
+
 `"phpunit.php": "/usr/local/bin/vagrant exec php",` this is to execute PHP on the remote machine. You'll need to install and configure https://github.com/p0deje/vagrant-exec - this wraps the command like using `ssh -C`
 
 You can also use the method above to execute on Docker remotely
