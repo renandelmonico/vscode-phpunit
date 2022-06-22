@@ -3,17 +3,18 @@
     "description": "PHP: Unit Test Explorer UI",
     "displayName": "PHP: Unit Test Explorer UI",
     "icon": "img/icon.png",
-    "author": "renandelmonico",
+    "author": "satiromarra",
     "license": "MIT",
     "version": "1.0.2",
     "preview": true,
     "repository": {
         "type": "git",
-        "url": "https://github.com/renandelmonico/vscode-phpunit"
+        "url": "https://github.com/satiromarra/vscode-phpunit"
     },
-    "publisher": "renandelmonico",
+    "publisher": "satiromarra",
     "contributors": [
-        "recca0120"
+        "recca0120",
+        "renandelmonico"
     ],
     "categories": [
         "Other",
@@ -183,6 +184,10 @@
                 "phpunit.dockerImage": {
                     "type": "string",
                     "description": "Specifies the docker run command line"
+                },
+                "phpunit.pathMappings": {
+                    "type": "object",
+                    "description": "Path mappings for your virtual/remote environments. Ex: { \"local/workspace/folder\": \"docker/workspace/folder\" }"
                 }
             }
         },
@@ -195,7 +200,7 @@
         ]
     },
     "scripts": {
-        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run clean && npm run compile",
+        "vscode:prepublish": "npm run clean && npm run compile",
         "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
         "compile": "npm run compile:client && npm run compile:server",
         "compile:client": "webpack --mode production --config ./client/webpack.config.js",
@@ -213,20 +218,16 @@
         "report:watch": "jest --coverage --watch"
     },
     "devDependencies": {
-        "@types/jest": "^24.9.1",
-        "@types/node": "^12.20.41",
-        "@types/vscode": "^1.30.0",
-        "jest": "^28.1.0",
+        "@types/jest": "^24.0.13",
+        "@types/node": "^12.0.4",
+        "jest": "^24.8.0",
         "merge-options": "^1.0.1",
-        "rimraf": "^2.7.1",
-        "ts-jest": "^28.0.1",
-        "ts-loader": "^6.2.2",
-        "tslint": "^5.20.1",
-        "typescript": "^3.9.10",
-        "webpack": "^5.72.0",
-        "webpack-cli": "^3.3.12"
-    },
-    "dependencies": {
-        "@vscode/test-electron": "^2.0.3"
+        "rimraf": "^2.6.3",
+        "ts-jest": "^24.0.2",
+        "ts-loader": "^6.0.2",
+        "tslint": "^5.17.0",
+        "typescript": "^3.5.1",
+        "webpack": "^4.32.2",
+        "webpack-cli": "^3.3.2"
     }
 }

@@ -54,6 +54,34 @@ export class WorkspaceFolder {
     getConfig() {
         return this.config;
     }
+    replacepath(file: string, local: boolean = true): string {
+        if (this.config.pathMappings) {
+            const MapV: string[] = Object.values(this.config.pathMappings);
+            const MapK: string[] = Object.keys(this.config.pathMappings);
+            let key: number, value: string, localPath: string;
+            for (let kv of Object.keys(MapK)) {
+                key = Number(kv);
+                localPath = MapV[key]
+                    .replace(/\$\{workspaceRoot\}/gi, this.fsPath())
+                    .replace(/\$\{remoteCwd\}/gi, this.config.remoteCwd);
+                value = MapK[key]
+                    .replace(/\$\{workspaceRoot\}/gi, this.fsPath())
+                    .replace(/\$\{remoteCwd\}/gi, this.config.remoteCwd)
+                    .replace(/\\/gi, "/");
+
+                file = file.replace(new RegExp(local ? localPath : value, "ig"), local ? value : localPath);
+            }
+        }
+        file = file.replace(/\$\{workspaceRoot\}/gi, this.fsPath());
+        return file;
+
+    }
+    remote2local(file: string) {
+        return this._files.asUri(this.replacepath(file, true));
+    }
+    local2remote(file: string) {
+        return this._files.asUri(this.replacepath(file, false));
+    }
 
     async detectChange(event: FileEvent) {
         if (this.isFileChanged(event)) {
@@ -142,7 +170,9 @@ export class WorkspaceFolder {
             cwd: this.fsPath(),
             shell: this.config.shell,
         };
-
+        if (this.config.docker) {
+            params.options.uri = this.local2remote(this._files.asUri(params.file).fsPath);
+        }
         rerun === false
             ? await this.testRunner.run(params, options)
             : await this.testRunner.rerun(params, options);
@@ -205,9 +235,9 @@ export class WorkspaceFolder {
                     id === 'root'
                         ? { command: 'phpunit.lsp.run-all', arguments: [] }
                         : {
-                              command: 'phpunit.lsp.run-test-at-cursor',
-                              arguments: [id],
-                          };
+                            command: 'phpunit.lsp.run-test-at-cursor',
+                            arguments: [id],
+                        };
 
                 return this.executeCommand(command);
             }
@@ -282,13 +312,20 @@ export class WorkspaceFolder {
     }
 
     private async changeEventsState(response: ITestResponse) {
-        const problems = await response.asProblems();
+        let problems = await response.asProblems();
         const result = response.getTestResult();
         const state = result.tests === 0 ? 'errored' : 'passed';
 
         const events = this.events
             .where(event => event.state === 'running')
             .map(event => this.fillTestEventState(event, response, state));
+
+        problems = problems.map((i) => {
+            if (this.config.docker) {
+                i.file = this.remote2local(i.file).fsPath;
+            }
+            return i;
+        });
 
         this.problems.put(events).put(problems);
         this.events.put(events).put(problems);
