@@ -54,7 +54,8 @@ export class TestRunner {
 
     setConfigFile(configFile: PathLike | URI | undefined) {
         if (configFile) {
-            this.args.push(`-c ${this._files.asUri(configFile).fsPath}`);
+            //this.args.push(`-c ${this._files.asUri(configFile).fsPath}`);
+            this.args.push(`-c ${configFile}`);
         }
 
         return this;
