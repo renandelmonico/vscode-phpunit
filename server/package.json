@@ -2,14 +2,14 @@
     "name": "lsp-phpunit-server",
     "description": "PHPUnit Language Server.",
     "version": "1.0.0",
-    "author": "renandelmonico",
+    "author": "satiromarra",
     "license": "MIT",
     "engines": {
         "node": "*"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/renandelmonico/vscode-phpunit"
+        "url": "https://github.com/satiromarra/vscode-phpunit"
     },
     "dependencies": {
         "glob": "^7.1.4",

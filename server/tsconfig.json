@@ -1,14 +1,14 @@
 {
-    "extends": "../tsconfig.base.json",
-    "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "strict": true,
-        "outDir": "out",
-        "rootDir": "src"
-    },
-    "include": ["types", "src"],
-    "exclude": ["node_modules"]
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"target": "es2017",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"strict": true,
+		"outDir": "out",
+		"rootDir": "src"
+	},
+	"include": ["types", "src"],
+	"exclude": ["node_modules"]
 }
