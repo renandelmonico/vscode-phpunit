@@ -4,29 +4,28 @@
     "author": "renandelmonico",
     "license": "MIT",
     "version": "0.0.1",
-    "publisher": "renandelmonico",
+    "publisher": "satiromarra",
     "contributors": [
-        "recca0120"
+        "recca0120",
+        "renandelmonico"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/renandelmonico/vscode-phpunit"
+        "url": "https://github.com/satiromarra/vscode-phpunit"
     },
     "engines": {
         "vscode": "^1.30.0"
     },
-    "scripts": {
-        "update-vscode": "vscode-install"
-    },
+    "scripts": {},
     "dependencies": {
-        "md5": "^2.3.0",
+        "md5": "^2.2.1",
         "vscode-languageclient": "^5.2.1",
-        "vscode-test-adapter-api": "^1.9.0",
-        "vscode-test-adapter-util": "^0.7.1"
+        "vscode-test-adapter-api": "^1.7.0",
+        "vscode-test-adapter-util": "^0.7.0"
     },
     "devDependencies": {
-        "@types/md5": "^2.3.1",
-        "diff": "^4.0.2",
-        "vscode": "^1.1.37"
+        "@types/md5": "^2.1.33",
+        "diff": "^4.0.1",
+        "@types/vscode": "^1.1.34"
     }
 }

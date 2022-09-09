@@ -16,6 +16,7 @@ interface IConfiguration {
     dockerImage?: string;
     configFile?: string;
     discoverConfigFile: boolean;
+    pathMappings: object;
 }
 
 export class Configuration implements IConfiguration {
@@ -25,13 +26,14 @@ export class Configuration implements IConfiguration {
         relativeFilePath: false,
         shell: '',
         remoteCwd: '',
-        discoverConfigFile: false
+        discoverConfigFile: false,
+        pathMappings: {}
     };
 
     constructor(
         private connection: Connection,
         private workspaceFolder: _WorkspaceFolder
-    ) {}
+    ) { }
 
     get maxNumberOfProblems(): number {
         return this.defaults.maxNumberOfProblems;
@@ -79,6 +81,10 @@ export class Configuration implements IConfiguration {
 
     get discoverConfigFile(): boolean {
         return this.defaults.discoverConfigFile;
+    }
+
+    get pathMappings(): object {
+        return this.defaults.pathMappings;
     }
 
     async update(configurationCapability = true) {

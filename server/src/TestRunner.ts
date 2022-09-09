@@ -30,22 +30,19 @@ export class TestRunner {
     constructor(private process = new Process(), private _files = files) { }
 
     setPhpBinary(phpBinary: PathLike | URI | undefined) {
-        this.phpBinary = phpBinary ? this._files.asUri(phpBinary).fsPath : '';
-
+        //this.phpBinary = phpBinary ? this._files.asUri(phpBinary).fsPath : '';
+        this.phpBinary = phpBinary ? phpBinary.toString() : '';
         return this;
     }
 
     setPhpUnitBinary(phpUnitBinary: PathLike | URI | undefined) {
-        this.phpUnitBinary = phpUnitBinary
-            ? this._files.asUri(phpUnitBinary).fsPath
-            : '';
-
+        //this.phpUnitBinary = phpUnitBinary ? this._files.asUri(phpUnitBinary).fsPath : '';
+        this.phpUnitBinary = phpUnitBinary ? phpUnitBinary.toString() : '';
         return this;
     }
 
     setIsDocker(isDocker: boolean | undefined) {
         this.isDocker = isDocker ? isDocker : false;
-
         return this;
     }
 
@@ -57,7 +54,8 @@ export class TestRunner {
 
     setConfigFile(configFile: PathLike | URI | undefined) {
         if (configFile) {
-            this.args.push(`-c ${this._files.asUri(configFile).fsPath}`);
+            //this.args.push(`-c ${this._files.asUri(configFile).fsPath}`);
+            this.args.push(`-c ${configFile}`);
         }
 
         return this;
@@ -121,7 +119,7 @@ export class TestRunner {
         if (p.file) {
             let testFilePath = this._files.asUri(p.file).fsPath;
             if (this.relativeFilePath && options && options.cwd) {
-                testFilePath = testFilePath.replace(new RegExp(options.cwd.replace(/\\/g, '\\\\') + '[\\/\\\\]'), '');
+                //testFilePath = testFilePath.replace(new RegExp(options.cwd.replace(/\\/g, '\\\\') + '[\\/\\\\]'), '');
             }
             params.push(testFilePath);
         }
@@ -190,8 +188,9 @@ export class TestRunner {
         params = params.concat(this.args, args).filter(arg => !!arg);
 
         if (this.isDocker) {
-            const phpUnitFile = phpUnitBinary ? phpUnitBinary.substring(1) : '';
-            const command = `${dockerImage} bash -c "${phpUnitFile} ${params.join(' ')}"`;
+            const phpUnitFile = phpUnitBinary ? phpUnitBinary.toString() : '';
+            //const command = `${dockerImage} bash -c "${phpUnitFile} ${params.join(' ')}"`;
+            const command = `${dockerImage} ${phpUnitFile} ${params.join(' ')}`;
 
             return {
                 title: 'PHPUnit LSP',

@@ -30,7 +30,7 @@ const engine = Engine.create({
 });
 
 class ClassNode {
-    constructor(private node: any, private options: TestOptions) {}
+    constructor(private node: any, private options: TestOptions) { }
 
     asTestSuite(): TestSuiteNode | undefined {
         const options = this.getTestOptions();
@@ -107,7 +107,7 @@ export default class Parser {
         },
         private _engine = engine,
         private _files = files
-    ) {}
+    ) { }
 
     async parse(uri: PathLike | URI): Promise<TestSuiteNode | undefined> {
         return this.parseCode(await this._files.get(uri), uri);
@@ -140,12 +140,12 @@ export default class Parser {
 
             return this.isTestClass(node)
                 ? classes.concat(
-                      new ClassNode(node, {
-                          workspaceFolder: this.workspaceFolder,
-                          uri,
-                          namespace,
-                      })
-                  )
+                    new ClassNode(node, {
+                        workspaceFolder: this.workspaceFolder,
+                        uri,
+                        namespace,
+                    })
+                )
                 : classes;
         }, []);
     }
